@@ -61,7 +61,6 @@ function clearAll() {
   resultEl.textContent = "0";
 }
 
-// Oxirgi belgini o'chirish
 function deleteLast() {
   currentInput = currentInput.slice(0, -1);
   resultEl.textContent = currentInput || "0";
