@@ -1,4 +1,3 @@
-console.log("Hello world");
 const redLight = document.getElementById("red");
 const yellowLight = document.getElementById("yellow");
 const greenLight = document.getElementById("green");
@@ -42,6 +41,7 @@ function setLight(color, isAuto = false) {
 
 function startAuto() {
     if (autoInterval) return; 
+
     const sequence = ["red", "yellow", "green", "yellow"];
     currentStep = 0;
     setLight(sequence[currentStep], true);
@@ -49,7 +49,7 @@ function startAuto() {
     autoInterval = setInterval(() => {
         currentStep = (currentStep + 1) % sequence.length;
         setLight(sequence[currentStep], true);
-    }, 2000);
+    }, 2000); 
 }
 
 
