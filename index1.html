@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 28px;
+      width: 340px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5),
+                  0 0 40px rgba(99, 102, 241, 0.15);
+    }
+
+    .display {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 16px;
+      padding: 20px 20px 12px;
+      margin-bottom: 24px;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .expression {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 14px;
+      min-height: 20px;
+      margin-bottom: 6px;
+      word-break: break-all;
+      text-align: right;
+    }
+
+    .result {
+      color: #ffffff;
+      font-size: 40px;
+      font-weight: 300;
+      word-break: break-all;
+      text-align: right;
+      line-height: 1.1;
+      transition: all 0.15s ease;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 500;
+      height: 64px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      outline: none;
+    }
+
+    /* Number buttons */
+    .btn-num {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .btn-num:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .btn-num:active {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    /* Operator buttons */
+    .btn-op {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+    .btn-op:hover {
+      background: linear-gradient(135deg, #818cf8, #a78bfa);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+    }
+    .btn-op:active {
+      transform: translateY(0);
+    }
+
+    /* Equals button */
+    .btn-eq {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+    .btn-eq:hover {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+    }
+    .btn-eq:active {
+      transform: translateY(0);
+    }
+
+    /* Clear / special buttons */
+    .btn-clear {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    }
+    .btn-clear:hover {
+      background: linear-gradient(135deg, #f87171, #ef4444);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+    }
+    .btn-clear:active {
+      transform: translateY(0);
+    }
+
+    .btn-del {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .btn-del:hover {
+      background: rgba(239, 68, 68, 0.3);
+      transform: translateY(-2px);
+    }
+    .btn-del:active {
+      transform: translateY(0);
+    }
+
+    .btn-dot {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .btn-dot:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+
+    /* Zero spans full width */
+    .span-two {
+      grid-column: span 2;
+    }
+
+    .title {
+      text-align: center;
+      color: rgba(255,255,255,0.3);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <p class="title">Kalkulator</p>
+
+  <div class="display">
+    <div class="expression" id="expression"></div>
+    <div class="result" id="result">0</div>
+  </div>
+
+  <div class="buttons">
+    <button class="btn-clear" onclick="clearAll()">AC</button>
+    <button class="btn-del"   onclick="deleteLast()">⌫</button>
+    <button class="btn-num"   onclick="appendValue('%')">%</button>
+    <button class="btn-op"    onclick="appendValue('/')">÷</button>
+
+    <button class="btn-num" onclick="appendValue('7')">7</button>
+    <button class="btn-num" onclick="appendValue('8')">8</button>
+    <button class="btn-num" onclick="appendValue('9')">9</button>
+    <button class="btn-op"  onclick="appendValue('*')">×</button>
+
+    <button class="btn-num" onclick="appendValue('4')">4</button>
+    <button class="btn-num" onclick="appendValue('5')">5</button>
+    <button class="btn-num" onclick="appendValue('6')">6</button>
+    <button class="btn-op"  onclick="appendValue('-')">−</button>
+
+    <button class="btn-num" onclick="appendValue('1')">1</button>
+    <button class="btn-num" onclick="appendValue('2')">2</button>
+    <button class="btn-num" onclick="appendValue('3')">3</button>
+    <button class="btn-op"  onclick="appendValue('+')">+</button>
+
+    <button class="btn-num span-two" onclick="appendValue('0')">0</button>
+    <button class="btn-dot"          onclick="appendValue('.')">.</button>
+    <button class="btn-eq"           onclick="calculate()">=</button>
+  </div>
+</div>
+
+<script src="app1.js"></script>
+</body>
+</html>
