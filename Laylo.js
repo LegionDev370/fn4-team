@@ -1,1 +1,2 @@
-console.log('Laylo');
+console.log("Laylo");
+console.log("Xusnullo");
